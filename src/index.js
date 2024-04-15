@@ -57,7 +57,7 @@ function Table(props) {
             
             pageNumbers.push(-1);
 
-            for (let i = selectedPage - 3; i < pagesCount; i++) {
+            for (let i = selectedPage - 2; i < pagesCount; i++) {
                 pageNumbers.push(i + 1);
             }
         }
