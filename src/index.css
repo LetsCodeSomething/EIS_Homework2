@@ -67,3 +67,41 @@ code {
   /*column-gap: 100px;*/
   justify-content: space-around;
 }
+
+.pagination-button {
+  margin: 5px;
+  padding: 5px;
+  display:inline-block;
+  min-width: 20px;
+  
+  text-align: center;
+
+  color: black;
+  
+  cursor: pointer;
+}
+
+.pagination-ellipsis {
+  margin: 5px;
+  padding: 5px;
+  display:inline-block;
+  min-width: 20px;
+  
+  text-align: center;
+
+  color: black;
+}
+
+.pagination-button-selected {
+  margin: 5px;
+  padding: 5px;
+  display:inline-block;
+  min-width: 20px;
+
+  text-align: center;
+
+  background-color: blue;
+  color: white;
+
+  cursor: pointer;
+}
