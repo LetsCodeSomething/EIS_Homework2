@@ -26,12 +26,17 @@ function Table(props) {
     const [selectedPage, setSelectedPage] = React.useState(parseInt(props.selectedPage));
     //const updateSelectedPage = (value) => setSelectedPage(value);
 
+    //const filter []
+
+    //Filter the dataset.
+    //Sort the dataset.
+
     //Computation of the amount of rows to display for the selected page.
     const pagesCount = Math.ceil(dataset.length * 1.0 / parseInt(props.rowsPerPage));
     const remainingRowsCount = dataset.length - selectedPage * parseInt(props.rowsPerPage);
     const sliceSize = remainingRowsCount >= parseInt(props.rowsPerPage) ? parseInt(props.rowsPerPage) : remainingRowsCount;
     
-    //Create table rows.
+    //Creates table rows.
     const rows = dataset.slice(selectedPage * parseInt(props.rowsPerPage), 
                                selectedPage * parseInt(props.rowsPerPage) + sliceSize).map((item, index) => <TableRow key={index} row={item}/>);
     
@@ -110,7 +115,52 @@ function Table(props) {
     );
 }
 
+function IntNumberOnlyTextbox(props) {
+    const [text, setText] = React.useState("");
+
+    const onChange = (event) => {
+        const re = /^[0-9\b]+$/;
+        if (event.target.value === "" || re.test(event.target.value)) {
+            setText(event.target.value);
+        }
+    }
+
+    return (
+        <input type="text" value={text} onChange={onChange}></input>
+    );
+}
+
+function FloatNumberOnlyTextbox(props) {
+    const [text, setText] = React.useState("");
+
+    const onChange = (event) => {
+        const re = /^([0-9]*[.])?[0-9]*$/;
+        if (event.target.value === "" || re.test(event.target.value)) {
+            setText(event.target.value);
+        }
+    }
+
+    return (
+        <input type="text" value={text} onChange={onChange}></input>
+    );
+}
+
+function Filter(props) {
+    const handleChange = (event) => {
+        alert();
+    }
+    
+    return (
+        <form>
+            <input type="text" onChange={handleChange}></input>
+            <IntNumberOnlyTextbox/>
+            <FloatNumberOnlyTextbox/>
+        </form>
+    );
+}
+
 root.render(<>
     <h3>Данные по продажам в Walmart</h3>
+    <Filter/>
     <Table rowsPerPage="25" selectedPage="1"/>
 </>);
