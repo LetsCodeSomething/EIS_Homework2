@@ -81,6 +81,11 @@ code {
   cursor: pointer;
 }
 
+.pagination-button:hover {
+  background-color: lightgray;
+  transition: 0.5s;
+}
+
 .pagination-ellipsis {
   margin: 5px;
   padding: 5px;
