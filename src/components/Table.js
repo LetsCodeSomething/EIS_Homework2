@@ -30,8 +30,10 @@ export function Table(props) {
     
     let pageNumbers = [];
     if(pagesCount < 8) {
-        for (let i = 0; i < 7; i++) {
-            pageNumbers.push(i + 1);
+        if(pagesCount > 1) {
+            for (let i = 0; i < 7; i++) {
+                pageNumbers.push(i + 1);
+            }
         }
     }
     else {
