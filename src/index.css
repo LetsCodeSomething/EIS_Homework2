@@ -1,4 +1,4 @@
-body {
+/*body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -10,8 +10,9 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-}
+}*/
 
+/*Main table styles*/
 .table-data {
   display: table;
   min-width: 100%;
@@ -43,6 +44,7 @@ code {
   border-left: none;
 }
 
+/*Filtering, sorting and grouping blocks styles*/
 .table-controls td {
   padding-bottom: 4px;
   height: 25px;
@@ -54,7 +56,12 @@ code {
 }
 
 .table-controls input[type="text"], input[type="date"] {
+  min-width: 130px;
   max-width: 130px;
+}
+
+.table-controls select {
+  min-width: 130px;
 }
 
 .button-right {
@@ -68,6 +75,7 @@ code {
   justify-content: space-around;
 }
 
+/*Pagination controls styles*/
 .pagination-button {
   margin: 5px;
   padding: 5px;

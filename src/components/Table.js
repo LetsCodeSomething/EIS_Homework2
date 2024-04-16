@@ -12,7 +12,6 @@ function TableRow(props) {
 
 export function Table(props) {
     const [selectedPage, setSelectedPage] = React.useState(parseInt(props.selectedPage));
-    //const updateSelectedPage = (value) => setSelectedPage(value);
 
     //const filter []
 
@@ -69,7 +68,7 @@ export function Table(props) {
         }
     }
     
-    const handleClick = (event) => {
+    const onClick = (event) => {
         const text = event.target.innerHTML.trim();
 
         if(text !== "...") {
@@ -86,8 +85,8 @@ export function Table(props) {
             className = "pagination-button-selected";
         }
          
-        return item === -1 ? <div key={index} className={className} onClick={handleClick}>...</div> : 
-                             <div key={index} className={className} onClick={handleClick}>{item}</div>;
+        return item === -1 ? <div key={index} className={className} onClick={onClick}>...</div> : 
+                             <div key={index} className={className} onClick={onClick}>{item}</div>;
     });
 
     return (
