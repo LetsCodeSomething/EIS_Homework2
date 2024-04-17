@@ -87,10 +87,16 @@ export function Table(props) {
     const updateSelectedPage = (value) => setSelectedPage(value);
 
     const [tableData, setTableData] = React.useState(props.dataset);
-    const updateTableData = (value) => setTableData(value);
-
-    //Filter the dataset.
-    //Sort the dataset.
+    const updateTableData = (value) => {
+        setTableData(value); 
+        setSelectedPage(0);
+    };
+    const getRawTableData = () => {
+        return props.dataset;
+    };
+    const getFilteredTableData = () => {
+        return tableData;
+    };
 
     //Computation of the amount of rows to display for the selected page.
     const pagesCount = Math.ceil(tableData.length * 1.0 / parseInt(props.rowsPerPage));
@@ -103,7 +109,7 @@ export function Table(props) {
     
     return (
         <>
-            <FilterComponents.Filter tableData={props.dataset} updateTableData={updateTableData}/>
+            <FilterComponents.Filter getRawTableData={getRawTableData} updateTableData={updateTableData}/>
             <table className="table-data">
                 <thead>
                     <TableRow row={Object.keys(props.dataset[0])} />

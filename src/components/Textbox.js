@@ -7,7 +7,7 @@ export function IntNumberOnlyTextbox(props) {
         const re = /^[0-9\b]+$/;
         if (event.target.value === "" || re.test(event.target.value)) {
             setText(event.target.value);
-            props.updateFilters(props.filterName, parseInt(event.target.value));
+            props.updateFilters(props.filterName, parseInt(event.target.value), props.index);
         }
     }
 
@@ -23,6 +23,7 @@ export function FloatNumberOnlyTextbox(props) {
         const re = /^([0-9]*[.])?[0-9]*$/;
         if (event.target.value === "" || re.test(event.target.value)) {
             setText(event.target.value);
+            props.updateFilters(props.filterName, parseFloat(event.target.value), props.index);
         }
     }
 
