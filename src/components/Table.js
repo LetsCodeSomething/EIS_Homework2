@@ -1,5 +1,7 @@
 import React from 'react';
 
+import * as FilterComponents from "./Filter";
+
 function TableRow(props) {
     const cells = Object.values(props.row).map((item, index) => <td key={index}> {item} </td>);
 
@@ -10,48 +12,32 @@ function TableRow(props) {
     );
 }   
 
-export function Table(props) {
-    const [selectedPage, setSelectedPage] = React.useState(parseInt(props.selectedPage));
-
-    //const filter []
-
-    //Filter the dataset.
-    //Sort the dataset.
-
-    //Computation of the amount of rows to display for the selected page.
-    const pagesCount = Math.ceil(props.dataset.length * 1.0 / parseInt(props.rowsPerPage));
-    const remainingRowsCount = props.dataset.length - selectedPage * parseInt(props.rowsPerPage);
-    const sliceSize = remainingRowsCount >= parseInt(props.rowsPerPage) ? parseInt(props.rowsPerPage) : remainingRowsCount;
-    
-    //Creates table rows.
-    const rows = props.dataset.slice(selectedPage * parseInt(props.rowsPerPage), 
-                                     selectedPage * parseInt(props.rowsPerPage) + sliceSize).map((item, index) => <TableRow key={index} row={item}/>);
-    
+function PaginationButtons(props) {
     let pageNumbers = [];
-    if(pagesCount < 8) {
-        if(pagesCount > 1) {
+    if(props.pagesCount < 8) {
+        if(props.pagesCount > 1) {
             for (let i = 0; i < 7; i++) {
                 pageNumbers.push(i + 1);
             }
         }
     }
     else {
-        if(selectedPage < 4) {
-            for (let i = 0; i < selectedPage + 3; i++) {
+        if(props.selectedPage < 4) {
+            for (let i = 0; i < props.selectedPage + 3; i++) {
                 pageNumbers.push(i + 1);
             }
             
             //-1 represents the ellipsis.
             pageNumbers.push(-1);
 
-            pageNumbers.push(pagesCount);
+            pageNumbers.push(props.pagesCount);
         }
-        else if (selectedPage > pagesCount - 5) {
+        else if (props.selectedPage > props.pagesCount - 5) {
             pageNumbers.push(1);
             
             pageNumbers.push(-1);
 
-            for (let i = selectedPage - 2; i < pagesCount; i++) {
+            for (let i = props.selectedPage - 2; i < props.pagesCount; i++) {
                 pageNumbers.push(i + 1);
             }
         }
@@ -59,12 +45,12 @@ export function Table(props) {
             pageNumbers.push(1);
             pageNumbers.push(-1);
 
-            for (let i = selectedPage - 2; i < selectedPage + 3; i++) {
+            for (let i = props.selectedPage - 2; i < props.selectedPage + 3; i++) {
                 pageNumbers.push(i + 1);
             }
 
             pageNumbers.push(-1);
-            pageNumbers.push(pagesCount);
+            pageNumbers.push(props.pagesCount);
         }
     }
     
@@ -72,7 +58,7 @@ export function Table(props) {
         const text = event.target.innerHTML.trim();
 
         if(text !== "...") {
-            setSelectedPage(parseInt(text) - 1);
+            props.updateSelectedPage(parseInt(text) - 1);
         }
     };
 
@@ -81,7 +67,7 @@ export function Table(props) {
         if(item === -1) {
             className = "pagination-ellipsis";
         }
-        else if (item - 1 === selectedPage) {
+        else if (item - 1 === props.selectedPage) {
             className = "pagination-button-selected";
         }
          
@@ -91,6 +77,35 @@ export function Table(props) {
 
     return (
         <>
+            {pageButtons}
+        </>
+    );
+}
+
+export function Table(props) {
+    const [selectedPage, setSelectedPage] = React.useState(parseInt(props.selectedPage));
+    const updateSelectedPage = (value) => setSelectedPage(value);
+
+    const [tableData, setTableData] = React.useState(props.dataset);
+    const updateTableData = (value) => setTableData(value);
+
+    //const filter []
+
+    //Filter the dataset.
+    //Sort the dataset.
+
+    //Computation of the amount of rows to display for the selected page.
+    const pagesCount = Math.ceil(tableData.length * 1.0 / parseInt(props.rowsPerPage));
+    const remainingRowsCount = tableData.length - selectedPage * parseInt(props.rowsPerPage);
+    const sliceSize = remainingRowsCount >= parseInt(props.rowsPerPage) ? parseInt(props.rowsPerPage) : remainingRowsCount;
+    
+    //Creates table rows.
+    const rows = tableData.slice(selectedPage * parseInt(props.rowsPerPage), 
+                                 selectedPage * parseInt(props.rowsPerPage) + sliceSize).map((item, index) => <TableRow key={index} row={item}/>);
+    
+    return (
+        <>
+            <FilterComponents.Filter/>
             <table className="table-data">
                 <thead>
                     <TableRow row={Object.keys(props.dataset[0])} />
@@ -99,7 +114,7 @@ export function Table(props) {
                     {rows}
                 </tbody>
             </table>
-            {pageButtons}
+            <PaginationButtons pagesCount={pagesCount} selectedPage={selectedPage} updateSelectedPage={updateSelectedPage}/>
         </>
     );
 }
