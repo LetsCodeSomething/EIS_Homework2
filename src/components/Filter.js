@@ -3,10 +3,20 @@ import React from 'react';
 import * as TextboxComponents from "./Textbox";
 
 export function Filter(props) {
-    const handleChange = (event) => {
-        alert();
-    }
-    
+    const defaultFilters = {
+        "Store": 4
+    };
+
+    const [filters, setFilters] = React.useState(defaultFilters);
+    const updateFilters = (filterName, filterValue) => {
+        let filtersCopy = Object.assign(filters);
+        filtersCopy[filterName] = filterValue;
+        setFilters(filtersCopy);
+
+        let filteredTableData = props.tableData.filter(item => item["Store"] >= filtersCopy["Store"]);
+        props.updateTableData(filteredTableData);
+    };
+
     return (
         <>
             <h4>Фильтр</h4>
@@ -14,7 +24,7 @@ export function Filter(props) {
                 <tbody>
                     <tr>
                         <td>Магазин:</td>
-                        <td>от <TextboxComponents.IntNumberOnlyTextbox/></td>
+                        <td>от <TextboxComponents.IntNumberOnlyTextbox filterName="Store" updateFilters={updateFilters}/></td>
                         <td>до <TextboxComponents.IntNumberOnlyTextbox/></td>
                     </tr>
                     <tr>
@@ -31,7 +41,7 @@ export function Filter(props) {
                         <td>Выходной:</td>
                         <td>
                             <select>
-                                <option value="false" selected>Не важно</option>
+                                <option value="false" defaultValue>Не важно</option>
                                 <option value="yes">Да</option>
                                 <option value="no">Нет</option>
                             </select>

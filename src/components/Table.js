@@ -89,8 +89,6 @@ export function Table(props) {
     const [tableData, setTableData] = React.useState(props.dataset);
     const updateTableData = (value) => setTableData(value);
 
-    //const filter []
-
     //Filter the dataset.
     //Sort the dataset.
 
@@ -105,7 +103,7 @@ export function Table(props) {
     
     return (
         <>
-            <FilterComponents.Filter/>
+            <FilterComponents.Filter tableData={props.dataset} updateTableData={updateTableData}/>
             <table className="table-data">
                 <thead>
                     <TableRow row={Object.keys(props.dataset[0])} />
