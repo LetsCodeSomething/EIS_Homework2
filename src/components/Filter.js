@@ -13,7 +13,7 @@ export function Filter(props) {
         "Store":        [FILTER_TYPE_INTEGER_INTERVAL, NaN, NaN],
         "Date":         [FILTER_TYPE_DATE_INTERVAL,    NaN, NaN],
         "Weekly_Sales": [FILTER_TYPE_FLOAT_INTERVAL,   NaN, NaN], 
-        "Holiday_Flag": [FILTER_TYPE_LIST,             NaN],
+        "Holiday_Flag": [FILTER_TYPE_LIST,             -1],
         "Temperature":  [FILTER_TYPE_FLOAT_INTERVAL,   NaN, NaN], 
         "Fuel_Price":   [FILTER_TYPE_FLOAT_INTERVAL,   NaN, NaN],
         "CPI":          [FILTER_TYPE_FLOAT_INTERVAL,   NaN, NaN], 
@@ -54,16 +54,19 @@ export function Filter(props) {
                     filteredTableData = filteredTableData.filter(item => stringToDate(item[key]) <= filtersCopy[key][2]);
                 }
             }
-            //TODO: holiday flag.
             else {
-                if(filtersCopy[key][1]) {
-                    filteredTableData = filteredTableData.filter(item => item[key] === filtersCopy[key][1]);
+                if(filtersCopy[key][1] !== -1) {
+                    filteredTableData = filteredTableData.filter(item => parseInt(item[key]) === filtersCopy[key][1]);
                 }
             }
         }
      
         setFilters(filtersCopy);
         props.updateTableData(filteredTableData);
+    };
+
+    const updateHolidayFlagFilter = (event) => {
+        updateFilters("Holiday_Flag", parseInt(event.target.value), 1);
     };
 
     return (
@@ -89,10 +92,10 @@ export function Filter(props) {
                     <tr>
                         <td>Выходной:</td>
                         <td>
-                            <select>
-                                <option value="false" defaultValue>Не важно</option>
-                                <option value="yes">Да</option>
-                                <option value="no">Нет</option>
+                            <select onChange={updateHolidayFlagFilter}>
+                                <option value={-1} defaultValue>Не важно</option>
+                                <option value={1}>Да</option>
+                                <option value={0}>Нет</option>
                             </select>
                         </td>
                         <td></td>
