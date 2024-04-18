@@ -6,7 +6,7 @@ export function DatePicker (props) {
     };
 
     //Quantum mechanics: when "props.value" gets copied into "displayedText",
-    //this component receives an empty "value" parameter and displayes nothing. 
+    //this component receives an empty "value" parameter and displays nothing. 
     //But checking "props.value" for NaN doesn't break the component.
 
     //const displayedText = isNaN(props.value) ? "" : props.value;

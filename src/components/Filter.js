@@ -2,6 +2,7 @@ import React from 'react';
 
 import * as TextboxComponents from "./Textbox";
 import * as DatePickerComponents from "./DatePicker";
+import * as DropDownListComponents from "./DropDownList";
 
 export function Filter(props) {
     const FILTER_TYPE_INTEGER_INTERVAL = 0;
@@ -69,18 +70,15 @@ export function Filter(props) {
                 }
             }
             else {
-                if(filtersCopy[key][1] !== -1) {
-                    filteredTableData = filteredTableData.filter(item => parseInt(item[key]) === filtersCopy[key][1]);
+                const a = parseInt(filtersCopy[key][1]);
+                if(a !== -1) {
+                    filteredTableData = filteredTableData.filter(item => parseInt(item[key]) === a);
                 }
             }
         }
      
         setFilters(filtersCopy);
         props.updateTableData(filteredTableData);
-    };
-
-    const updateHolidayFlagFilter = (event) => {
-        updateFilters("Holiday_Flag", parseInt(event.target.value), 1);
     };
     
     const resetFilters = (event) => {
@@ -111,11 +109,7 @@ export function Filter(props) {
                     <tr>
                         <td>Выходной:</td>
                         <td>
-                            <select onChange={updateHolidayFlagFilter}>
-                                <option value={-1} defaultValue>Не важно</option>
-                                <option value={1}>Да</option>
-                                <option value={0}>Нет</option>
-                            </select>
+                            <DropDownListComponents.DropDownList values={[[-1, "Не важно"], [0, "Да"], [1, "Нет"]]} selectedValue={filters["Holiday_Flag"][1]} filterName="Holiday_Flag" index={1} updateFilters={updateFilters}/>
                         </td>
                         <td></td>
                     </tr>
