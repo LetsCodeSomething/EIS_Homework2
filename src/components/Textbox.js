@@ -1,33 +1,37 @@
 import React from 'react';
 
 export function IntNumberOnlyTextbox(props) {
-    const [text, setText] = React.useState("");
-
     const onChange = (event) => {
         const re = /^[0-9\b]+$/;
-        if (event.target.value === "" || re.test(event.target.value)) {
-            setText(event.target.value);
-            props.updateFilters(props.filterName, parseInt(event.target.value), props.index);
+        if (re.test(event.target.value)) {
+            props.updateFilters(props.filterName, event.target.value, props.index);
+        }
+        else if(event.target.value === "") {
+            props.updateFilters(props.filterName, NaN, props.index);
         }
     }
 
+    const displayedText = isNaN(props.value) ? "" : props.value;
+
     return (
-        <input type="text" value={text} onChange={onChange}></input>
+        <input type="text" value={displayedText} onChange={onChange}/>
     );
 }
 
 export function FloatNumberOnlyTextbox(props) {
-    const [text, setText] = React.useState("");
-
     const onChange = (event) => {
         const re = /^([0-9]*[.])?[0-9]*$/;
-        if (event.target.value === "" || re.test(event.target.value)) {
-            setText(event.target.value);
-            props.updateFilters(props.filterName, parseFloat(event.target.value), props.index);
+        if (re.test(event.target.value)) {
+            props.updateFilters(props.filterName, event.target.value, props.index);
+        }
+        else if(event.target.value === "") {
+            props.updateFilters(props.filterName, NaN, props.index);
         }
     }
 
+    const displayedText = isNaN(props.value) ? "" : props.value;
+
     return (
-        <input type="text" value={text} onChange={onChange}></input>
+        <input type="text" value={displayedText} onChange={onChange}/>
     );
 }
