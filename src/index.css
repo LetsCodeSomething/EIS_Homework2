@@ -55,7 +55,7 @@ code {
   padding-left: 10px;
 }
 
-.table-controls input[type="text"], input[type="date"] {
+.table-controls input[type="text"], input[type="date"], select {
   min-width: 130px;
   max-width: 130px;
 }

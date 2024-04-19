@@ -3,6 +3,7 @@ import React from 'react';
 import {IntNumberOnlyTextbox, FloatNumberOnlyTextbox} from "./Textbox";
 import {DatePicker} from "./DatePicker";
 import {DropDownList} from "./DropDownList";
+import {Checkbox} from './Checkbox';
 
 export function Filter(props) {
     const FILTER_TYPE_INTEGER_INTERVAL = 0;
@@ -21,11 +22,11 @@ export function Filter(props) {
         "Unemployment": [FILTER_TYPE_FLOAT_INTERVAL,   NaN, NaN]
     };
 
-    //true means ascending order, false means descending.
+    //false means ascending order, true means descending.
     const defaultSorts = [
-        {"key": -1, "order": true},
-        {"key": -1, "order": true},
-        {"key": -1, "order": true}
+        {"key": -1, "order": false},
+        {"key": -1, "order": false},
+        {"key": -1, "order": false}
     ];
 
     const [filters, setFilters] = React.useState(defaultFilters);
@@ -100,8 +101,20 @@ export function Filter(props) {
     };
 
     const updateSorts = (sortName, sortValue, index) => {
+        //https://stackoverflow.com/questions/25937369/react-component-not-re-rendering-on-state-change
         let sortsCopy = sorts.slice();
         sortsCopy[index][sortName] = sortValue;
+
+        if(index === 0) {
+            sortsCopy[1]["key"] = -1;
+            sortsCopy[1]["order"] = false;
+            sortsCopy[2]["key"] = -1;
+            sortsCopy[2]["order"] = false;
+        }
+        else if(index === 1) {
+            sortsCopy[2]["key"] = -1;
+            sortsCopy[2]["order"] = false;
+        }
 
         let processedTableData = applySortsToData(props.getFilteredTableData(), sortsCopy);
 
@@ -122,21 +135,26 @@ export function Filter(props) {
         return tableData;
     };
 
-    const keys = [[-1, "Нет"], 
-                  ["Store", "Магазин"], 
-                  ["Date", "Дата"], 
-                  ["Weekly_Sales", "Продажи за неделю"], 
-                  ["Holiday_Flag", "Выходной"], 
-                  ["Temperature", "Температура"], 
-                  ["Fuel_Price", "Цена топлива"], 
-                  ["CPI", "Цена за показ"], 
-                  ["Unemployment", "Безработица"]];
+    const sortKeys = [
+        [-1, "Нет"], 
+        ["Store", "Магазин"], 
+        ["Date", "Дата"], 
+        ["Weekly_Sales", "Продажи за неделю"], 
+        ["Holiday_Flag", "Выходной"], 
+        ["Temperature", "Температура"], 
+        ["Fuel_Price", "Цена топлива"], 
+        ["CPI", "Цена за показ"], 
+        ["Unemployment", "Безработица"]
+    ];
 
-    let sortValues1 = keys;
+    const sort2Keys = sorts[0]["key"] == -1 ? [] : sortKeys.filter(item => item[0] != sorts[0]["key"]);
+    const sort2Disabled = sorts[0]["key"] == -1;
     
+    const sort3Keys = sorts[1]["key"] == -1 ? [] : sortKeys.filter(item => item[0] != sorts[0]["key"] && item[0] != sorts[1]["key"]);
+    const sort3Disabled = sorts[1]["key"] == -1;
+
     return (
         <>
-        <div className="flexbox-container">
             <div>
                 <h4>Фильтр</h4>
                 <table className="table-controls">
@@ -159,7 +177,7 @@ export function Filter(props) {
                         <tr>
                             <td>Выходной:</td>
                             <td>
-                                <DropDownList values={[[-1, "Не важно"], [1, "Да"], [0, "Нет"]]} selectedValue={filters["Holiday_Flag"][1]} filterName="Holiday_Flag" index={1} updateFilters={updateFilters}/>
+                                <DropDownList values={[[-1, "Не важно"], [1, "Да"], [0, "Нет"]]} selectedValue={filters["Holiday_Flag"][1]} disabled={false} filterName="Holiday_Flag" index={1} updateFilters={updateFilters}/>
                             </td>
                             <td></td>
                         </tr>
@@ -200,16 +218,16 @@ export function Filter(props) {
                             <td></td>
                         </tr>
                         <tr>
-                            <td><DropDownList values={sortValues1} selectedValue={sorts[0]["key"]} filterName="key" index={0} updateFilters={updateSorts}/></td>
-                            <td>По убыванию</td>
+                            <td><DropDownList values={sortKeys} selectedValue={sorts[0]["key"]} filterName="key" index={0} updateFilters={updateSorts}/></td>
+                            <td>По убыванию <Checkbox value={sorts[0]["order"]} disabled={false} filterName="order" index={0} updateFilters={updateSorts}/></td>
                         </tr>
                         <tr>
-                            <td></td>
-                            <td>По убыванию</td>
+                            <td><DropDownList values={sort2Keys} selectedValue={sorts[1]["key"]} disabled={sort2Disabled} filterName="key" index={1} updateFilters={updateSorts}/></td>
+                            <td>По убыванию <Checkbox value={sorts[1]["order"]} disabled={sort2Disabled} filterName="order" index={1} updateFilters={updateSorts}/></td>
                         </tr>
                         <tr>
-                            <td></td>
-                            <td>По убыванию</td>
+                            <td><DropDownList values={sort3Keys} selectedValue={sorts[2]["key"]} disabled={sort3Disabled} filterName="key" index={2} updateFilters={updateSorts}/></td>
+                            <td>По убыванию <Checkbox value={sorts[2]["order"]} disabled={sort3Disabled} filterName="order" index={2} updateFilters={updateSorts}/></td>
                         </tr>
                         <tr>
                             <td></td>
@@ -218,7 +236,6 @@ export function Filter(props) {
                     </tbody>
                 </table>
             </div>
-        </div>
         </>
     );
 }

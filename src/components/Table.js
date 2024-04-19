@@ -109,7 +109,9 @@ export function Table(props) {
     
     return (
         <>
-            <Filter getRawTableData={getRawTableData} getFilteredTableData={getFilteredTableData} updateTableData={updateTableData}/>
+            <div className="flexbox-container">
+                <Filter getRawTableData={getRawTableData} getFilteredTableData={getFilteredTableData} updateTableData={updateTableData}/>
+            </div>
             <table className="table-data">
                 <thead>
                     <TableRow row={Object.keys(props.dataset[0])} />
