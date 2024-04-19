@@ -9,7 +9,7 @@ export function DropDownList(props) {
 
     return(
         <>
-            <select onChange={onChange} value={props.selectedValue}>
+            <select onChange={onChange} value={props.selectedValue} disabled={props.disabled}>
                 {options}
             </select>
         </>
