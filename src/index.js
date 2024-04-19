@@ -4,7 +4,7 @@ import App from './App';
 
 import './index.css';
 import dataset from './dataset/Dataset';
-import * as TableComponents from "./components/Table";
+import {Table} from "./components/Table";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -15,5 +15,5 @@ root.render(
 
 root.render(<>
     <h3>Данные по продажам в Walmart</h3>
-    <TableComponents.Table dataset={dataset} rowsPerPage="25" selectedPage="0"/>
+    <Table dataset={dataset} rowsPerPage="25" selectedPage="0"/>
 </>);

@@ -1,8 +1,8 @@
 import React from 'react';
 
-import * as TextboxComponents from "./Textbox";
-import * as DatePickerComponents from "./DatePicker";
-import * as DropDownListComponents from "./DropDownList";
+import {IntNumberOnlyTextbox, FloatNumberOnlyTextbox} from "./Textbox";
+import {DatePicker} from "./DatePicker";
+import {DropDownList} from "./DropDownList";
 
 export function Filter(props) {
     const FILTER_TYPE_INTEGER_INTERVAL = 0;
@@ -143,45 +143,45 @@ export function Filter(props) {
                     <tbody>
                         <tr>
                             <td>Магазин:</td>
-                            <td>от <TextboxComponents.IntNumberOnlyTextbox value={filters["Store"][1]} filterName="Store" index={1} updateFilters={updateFilters}/></td>
-                            <td>до <TextboxComponents.IntNumberOnlyTextbox value={filters["Store"][2]} filterName="Store" index={2} updateFilters={updateFilters}/></td>
+                            <td>от <IntNumberOnlyTextbox value={filters["Store"][1]} filterName="Store" index={1} updateFilters={updateFilters}/></td>
+                            <td>до <IntNumberOnlyTextbox value={filters["Store"][2]} filterName="Store" index={2} updateFilters={updateFilters}/></td>
                         </tr>
                         <tr>
                             <td>Дата:</td>
-                            <td>от <DatePickerComponents.DatePicker value={filters["Date"][1]} filterName="Date" index={1} updateFilters={updateFilters}/></td>
-                            <td>до <DatePickerComponents.DatePicker value={filters["Date"][2]} filterName="Date" index={2} updateFilters={updateFilters}/></td>
+                            <td>от <DatePicker value={filters["Date"][1]} filterName="Date" index={1} updateFilters={updateFilters}/></td>
+                            <td>до <DatePicker value={filters["Date"][2]} filterName="Date" index={2} updateFilters={updateFilters}/></td>
                         </tr>
                         <tr>
                             <td>Продажи за неделю:</td>
-                            <td>от <TextboxComponents.FloatNumberOnlyTextbox value={filters["Weekly_Sales"][1]} filterName="Weekly_Sales" index={1} updateFilters={updateFilters}/></td>
-                            <td>до <TextboxComponents.FloatNumberOnlyTextbox value={filters["Weekly_Sales"][2]} filterName="Weekly_Sales" index={2} updateFilters={updateFilters}/></td>
+                            <td>от <FloatNumberOnlyTextbox value={filters["Weekly_Sales"][1]} filterName="Weekly_Sales" index={1} updateFilters={updateFilters}/></td>
+                            <td>до <FloatNumberOnlyTextbox value={filters["Weekly_Sales"][2]} filterName="Weekly_Sales" index={2} updateFilters={updateFilters}/></td>
                         </tr>
                         <tr>
                             <td>Выходной:</td>
                             <td>
-                                <DropDownListComponents.DropDownList values={[[-1, "Не важно"], [1, "Да"], [0, "Нет"]]} selectedValue={filters["Holiday_Flag"][1]} filterName="Holiday_Flag" index={1} updateFilters={updateFilters}/>
+                                <DropDownList values={[[-1, "Не важно"], [1, "Да"], [0, "Нет"]]} selectedValue={filters["Holiday_Flag"][1]} filterName="Holiday_Flag" index={1} updateFilters={updateFilters}/>
                             </td>
                             <td></td>
                         </tr>
                         <tr>
                             <td>Температура:</td>
-                            <td>от <TextboxComponents.FloatNumberOnlyTextbox value={filters["Temperature"][1]} filterName="Temperature" index={1} updateFilters={updateFilters}/></td>
-                            <td>до <TextboxComponents.FloatNumberOnlyTextbox value={filters["Temperature"][2]} filterName="Temperature" index={2} updateFilters={updateFilters}/></td>
+                            <td>от <FloatNumberOnlyTextbox value={filters["Temperature"][1]} filterName="Temperature" index={1} updateFilters={updateFilters}/></td>
+                            <td>до <FloatNumberOnlyTextbox value={filters["Temperature"][2]} filterName="Temperature" index={2} updateFilters={updateFilters}/></td>
                         </tr>
                         <tr>
                             <td>Цена топлива:</td>
-                            <td>от <TextboxComponents.FloatNumberOnlyTextbox value={filters["Fuel_Price"][1]} filterName="Fuel_Price" index={1} updateFilters={updateFilters}/></td>
-                            <td>до <TextboxComponents.FloatNumberOnlyTextbox value={filters["Fuel_Price"][2]} filterName="Fuel_Price" index={2} updateFilters={updateFilters}/></td>
+                            <td>от <FloatNumberOnlyTextbox value={filters["Fuel_Price"][1]} filterName="Fuel_Price" index={1} updateFilters={updateFilters}/></td>
+                            <td>до <FloatNumberOnlyTextbox value={filters["Fuel_Price"][2]} filterName="Fuel_Price" index={2} updateFilters={updateFilters}/></td>
                         </tr>
                         <tr>
                             <td>Цена за показ:</td>
-                            <td>от <TextboxComponents.FloatNumberOnlyTextbox value={filters["CPI"][1]} filterName="CPI" index={1} updateFilters={updateFilters}/></td>
-                            <td>до <TextboxComponents.FloatNumberOnlyTextbox value={filters["CPI"][2]} filterName="CPI" index={2} updateFilters={updateFilters}/></td>
+                            <td>от <FloatNumberOnlyTextbox value={filters["CPI"][1]} filterName="CPI" index={1} updateFilters={updateFilters}/></td>
+                            <td>до <FloatNumberOnlyTextbox value={filters["CPI"][2]} filterName="CPI" index={2} updateFilters={updateFilters}/></td>
                         </tr>
                         <tr>
                             <td>Безработица:</td>
-                            <td>от <TextboxComponents.FloatNumberOnlyTextbox value={filters["Unemployment"][1]} filterName="Unemployment" index={1} updateFilters={updateFilters}/></td>
-                            <td>до <TextboxComponents.FloatNumberOnlyTextbox value={filters["Unemployment"][2]} filterName="Unemployment" index={2} updateFilters={updateFilters}/></td>
+                            <td>от <FloatNumberOnlyTextbox value={filters["Unemployment"][1]} filterName="Unemployment" index={1} updateFilters={updateFilters}/></td>
+                            <td>до <FloatNumberOnlyTextbox value={filters["Unemployment"][2]} filterName="Unemployment" index={2} updateFilters={updateFilters}/></td>
                         </tr>
                         <tr>
                             <td></td>
@@ -200,7 +200,7 @@ export function Filter(props) {
                             <td></td>
                         </tr>
                         <tr>
-                            <td><DropDownListComponents.DropDownList values={keys} selectedValue={sorts[0]["key"]} filterName="key" index={0} updateFilters={updateSorts}/></td>
+                            <td><DropDownList values={keys} selectedValue={sorts[0]["key"]} filterName="key" index={0} updateFilters={updateSorts}/></td>
                             <td>По убыванию</td>
                         </tr>
                         <tr>

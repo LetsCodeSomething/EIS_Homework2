@@ -1,6 +1,6 @@
 import React from 'react';
 
-import * as FilterComponents from "./Filter";
+import {Filter} from "./Filter";
 
 function TableRow(props) {
     const cells = Object.values(props.row).map((item, index) => <td key={index}> {item} </td>);
@@ -109,7 +109,7 @@ export function Table(props) {
     
     return (
         <>
-            <FilterComponents.Filter getRawTableData={getRawTableData} getFilteredTableData={getFilteredTableData} updateTableData={updateTableData}/>
+            <Filter getRawTableData={getRawTableData} getFilteredTableData={getFilteredTableData} updateTableData={updateTableData}/>
             <table className="table-data">
                 <thead>
                     <TableRow row={Object.keys(props.dataset[0])} />
