@@ -46,21 +46,6 @@ export function Filter(props) {
         props.updateTableData(applySortsToData(props.getRawTableData(), sorts));
     };
 
-    const updateSorts = (sortName, sortValue, index) => {
-        let sortsCopy = Object.assign(sorts);
-        sortsCopy[index][sortName] = sortValue;
-
-        let processedTableData = applySortsToData(props.getFilteredTableData(), sortsCopy);
-        
-        setSorts(sortsCopy);
-        props.updateTableData(processedTableData);
-    };
-
-    const resetSorts = (event) => {
-        setSorts(defaultSorts);
-        props.updateTableData(applyFiltersToData(props.getRawTableData(), filters));
-    };
-
     const applyFiltersToData = (tableData, filtersCopy) => {
         const keys = Object.keys(filtersCopy);
         for(let i = 0; i < keys.length; i++) {
@@ -114,6 +99,21 @@ export function Filter(props) {
         return tableData;
     };
 
+    const updateSorts = (sortName, sortValue, index) => {
+        let sortsCopy = sorts.slice();
+        sortsCopy[index][sortName] = sortValue;
+
+        let processedTableData = applySortsToData(props.getFilteredTableData(), sortsCopy);
+
+        setSorts(sortsCopy);
+        props.updateTableData(processedTableData);
+    };
+
+    const resetSorts = (event) => {
+        setSorts(defaultSorts);
+        props.updateTableData(applyFiltersToData(props.getRawTableData(), filters));
+    };
+
     const applySortsToData = (tableData, sortsCopy) => {
         if(!sortsCopy[0]["key"]) {
             return tableData;
@@ -131,9 +131,9 @@ export function Filter(props) {
                   ["Fuel_Price", "Цена топлива"], 
                   ["CPI", "Цена за показ"], 
                   ["Unemployment", "Безработица"]];
-    let sortValues1 = [];
-    
 
+    let sortValues1 = keys;
+    
     return (
         <>
         <div className="flexbox-container">
@@ -200,7 +200,7 @@ export function Filter(props) {
                             <td></td>
                         </tr>
                         <tr>
-                            <td><DropDownList values={keys} selectedValue={sorts[0]["key"]} filterName="key" index={0} updateFilters={updateSorts}/></td>
+                            <td><DropDownList values={sortValues1} selectedValue={sorts[0]["key"]} filterName="key" index={0} updateFilters={updateSorts}/></td>
                             <td>По убыванию</td>
                         </tr>
                         <tr>
@@ -213,7 +213,7 @@ export function Filter(props) {
                         </tr>
                         <tr>
                             <td></td>
-                            <td><input type="button" className="button-right" value="Сбросить сортировку"/></td>
+                            <td><input type="button" onClick={resetSorts} className="button-right" value="Сбросить сортировку"/></td>
                         </tr>
                     </tbody>
                 </table>
