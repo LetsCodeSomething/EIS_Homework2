@@ -109,7 +109,7 @@ export function Table(props) {
     
     return (
         <>
-            <FilterComponents.Filter getRawTableData={getRawTableData} updateTableData={updateTableData}/>
+            <FilterComponents.Filter getRawTableData={getRawTableData} getFilteredTableData={getFilteredTableData} updateTableData={updateTableData}/>
             <table className="table-data">
                 <thead>
                     <TableRow row={Object.keys(props.dataset[0])} />

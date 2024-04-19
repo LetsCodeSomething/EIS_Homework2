@@ -1,7 +1,7 @@
 import React from 'react';
 
 export function DropDownList(props) {
-    const onChange = (event) => {
+    const onChange = (event) => {    
         props.updateFilters(props.filterName, event.target.value, props.index);
     };
 
