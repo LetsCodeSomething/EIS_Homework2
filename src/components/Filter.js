@@ -136,13 +136,7 @@ export function Filter(props) {
         }
 
         const numberComparator = (a, b) => {
-            if (a < b) {
-                return -1;
-            }
-            else if (a > b) {
-                return 1;
-            }
-            return 0;
+            return a < b ? -1 : (a > b ? 1 : 0);
         };
 
         const dateComparator = (a, b) => {
@@ -155,13 +149,7 @@ export function Filter(props) {
             a = stringToDate(a, "-");
             b = stringToDate(b, "-");
 
-            if (a < b) {
-                return -1;
-            }
-            else if (a > b) {
-                return 1;
-            }
-            return 0;
+            return a < b ? -1 : (a > b ? 1 : 0);
         };
 
         const comparator1 = sortsCopy[0]["key"] === "Date" ? dateComparator : numberComparator; 
