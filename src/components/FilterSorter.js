@@ -3,9 +3,9 @@ import React from 'react';
 import {IntNumberOnlyTextbox, FloatNumberOnlyTextbox} from "./Textbox";
 import {DatePicker} from "./DatePicker";
 import {DropDownList} from "./DropDownList";
-import {Checkbox} from './Checkbox';
+import {Checkbox} from "./Checkbox";
 
-export function Filter(props) {
+export function FilterSorter(props) {
     const FILTER_TYPE_INTEGER_INTERVAL = 0;
     const FILTER_TYPE_FLOAT_INTERVAL = 1;
     const FILTER_TYPE_DATE_INTERVAL = 2;
