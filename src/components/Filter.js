@@ -122,7 +122,7 @@ export function Filter(props) {
         let processedTableData = applySortsToData(props.getFilteredTableData(), sortsCopy);
 
         setSorts(sortsCopy);
-        props.updateTableData(processedTableData);
+        props.updateTableData(processedTableData.slice());
     };
 
     const resetSorts = (event) => {
@@ -152,8 +152,8 @@ export function Filter(props) {
                 return dateObject;
             };
 
-            a = stringToDate(a);
-            b = stringToDate(b);
+            a = stringToDate(a, "-");
+            b = stringToDate(b, "-");
 
             if (a < b) {
                 return -1;
