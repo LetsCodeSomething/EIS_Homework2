@@ -103,7 +103,10 @@ export function Filter(props) {
     const updateSorts = (sortName, sortValue, index) => {
         //https://stackoverflow.com/questions/25937369/react-component-not-re-rendering-on-state-change
         let sortsCopy = sorts.slice();
-        sortsCopy[index][sortName] = sortValue;
+
+        //Dropdown lists may return strings and integer numbers.
+        //The type check is done here to avoid using "==" later.
+        sortsCopy[index][sortName] = isNaN(parseInt(sortValue)) ? sortValue : parseInt(sortValue);
 
         if(index === 0) {
             sortsCopy[1]["key"] = -1;
@@ -128,11 +131,88 @@ export function Filter(props) {
     };
 
     const applySortsToData = (tableData, sortsCopy) => {
-        if(!sortsCopy[0]["key"]) {
+        if(sortsCopy[0]["key"] === -1) {
             return tableData;
         }
-        
-        return tableData;
+
+        const numberComparator = (a, b) => {
+            if (a < b) {
+                return -1;
+            }
+            else if (a > b) {
+                return 1;
+            }
+            return 0;
+        };
+
+        const dateComparator = (a, b) => {
+            const stringToDate = (str, delimiter) => {
+                let parts = str.split(delimiter);
+                let dateObject = new Date(parts[2] + "-" + parts[1] + "-" + parts[0]);
+                return dateObject;
+            };
+
+            a = stringToDate(a);
+            b = stringToDate(b);
+
+            if (a < b) {
+                return -1;
+            }
+            else if (a > b) {
+                return 1;
+            }
+            return 0;
+        };
+
+        const comparator1 = sortsCopy[0]["key"] === "Date" ? dateComparator : numberComparator; 
+        const comparator2 = sortsCopy[1]["key"] === "Date" ? dateComparator : numberComparator; 
+        const comparator3 = sortsCopy[2]["key"] === "Date" ? dateComparator : numberComparator; 
+
+        const order1 = sortsCopy[0]["order"] ? -1 : 1;
+        const order2 = sortsCopy[1]["order"] ? -1 : 1;
+        const order3 = sortsCopy[2]["order"] ? -1 : 1;
+
+        if(sortsCopy[1]["key"] === -1) {
+            const oneLevelSort = (a, b) => {
+                let value = comparator1(a[sortsCopy[0]["key"]], b[sortsCopy[0]["key"]]);
+                value = (value === 0) ? 1 : value;
+                return value === -1 ? -order1 : order1;
+            };
+
+            return tableData.sort(oneLevelSort);
+        }
+        else if(sortsCopy[2]["key"] === -1) {
+            const twoLevelSort = (a, b) => {
+                let value = comparator1(a[sortsCopy[0]["key"]], b[sortsCopy[0]["key"]]);
+                if(value !== 0) {
+                    return value === -1 ? -order1 : order1;
+                }
+
+                let value2 = comparator2(a[sortsCopy[1]["key"]], b[sortsCopy[1]["key"]]);
+                value2 = (value2 === 0) ? 1 : value2;
+                return value2 === -1 ? -order2 : order2;
+            };
+
+            return tableData.sort(twoLevelSort);
+        }
+
+        const threeLevelSort = (a, b) => {
+            let value = comparator1(a[sortsCopy[0]["key"]], b[sortsCopy[0]["key"]]);
+            if(value !== 0) {
+                return value === -1 ? -order1 : order1;
+            }
+
+            let value2 = comparator2(a[sortsCopy[1]["key"]], b[sortsCopy[1]["key"]]);
+            if(value2 !== 0) {
+                return value2 === -1 ? -order2 : order2;
+            }
+                
+            let value3 = comparator3(a[sortsCopy[2]["key"]], b[sortsCopy[2]["key"]]);
+            value3 = (value3 === 0) ? 1 : value3;
+            return value3 === -1 ? -order3 : order3;
+        };
+
+        return tableData.sort(threeLevelSort);
     };
 
     const sortKeys = [
@@ -147,11 +227,11 @@ export function Filter(props) {
         ["Unemployment", "Безработица"]
     ];
 
-    const sort2Keys = sorts[0]["key"] == -1 ? [] : sortKeys.filter(item => item[0] != sorts[0]["key"]);
-    const sort2Disabled = sorts[0]["key"] == -1;
+    const sort2Keys = sorts[0]["key"] === -1 ? [] : sortKeys.filter(item => item[0] !== sorts[0]["key"]);
+    const sort2Disabled = sorts[0]["key"] === -1;
     
-    const sort3Keys = sorts[1]["key"] == -1 ? [] : sortKeys.filter(item => item[0] != sorts[0]["key"] && item[0] != sorts[1]["key"]);
-    const sort3Disabled = sorts[1]["key"] == -1;
+    const sort3Keys = sorts[1]["key"] === -1 ? [] : sortKeys.filter(item => item[0] !== sorts[0]["key"] && item[0] !== sorts[1]["key"]);
+    const sort3Disabled = sorts[1]["key"] === -1;
 
     return (
         <>
