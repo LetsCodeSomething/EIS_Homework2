@@ -109,6 +109,10 @@ export function FilterSorter(props) {
         sortsCopy[index][sortName] = isNaN(parseInt(sortValue)) ? sortValue : parseInt(sortValue);
 
         if(index === 0) {
+            if(sortsCopy[0]["key"] === -1) {
+                sortsCopy[0]["order"] = false;
+            }
+
             sortsCopy[1]["key"] = -1;
             sortsCopy[1]["order"] = false;
             sortsCopy[2]["key"] = -1;
@@ -215,11 +219,15 @@ export function FilterSorter(props) {
         ["Unemployment", "Безработица"]
     ];
 
+    const sort1Disabled = sorts[0]["key"] === -1;
+
     const sort2Keys = sorts[0]["key"] === -1 ? [] : sortKeys.filter(item => item[0] !== sorts[0]["key"]);
-    const sort2Disabled = sorts[0]["key"] === -1;
+    const sort2DropDownListDisabled = sort1Disabled;
+    const sort2CheckboxDisabled = sorts[1]["key"] === -1;
     
     const sort3Keys = sorts[1]["key"] === -1 ? [] : sortKeys.filter(item => item[0] !== sorts[0]["key"] && item[0] !== sorts[1]["key"]);
-    const sort3Disabled = sorts[1]["key"] === -1;
+    const sort3DropDownListDisabled = sorts[1]["key"] === -1;
+    const sort3CheckboxDisabled = sorts[2]["key"] === -1;
 
     return (
         <>
@@ -287,15 +295,15 @@ export function FilterSorter(props) {
                         </tr>
                         <tr>
                             <td><DropDownList values={sortKeys} selectedValue={sorts[0]["key"]} filterName="key" index={0} updateFilters={updateSorts}/></td>
-                            <td>По убыванию <Checkbox value={sorts[0]["order"]} disabled={false} filterName="order" index={0} updateFilters={updateSorts}/></td>
+                            <td>По убыванию <Checkbox value={sorts[0]["order"]} disabled={sort1Disabled} filterName="order" index={0} updateFilters={updateSorts}/></td>
                         </tr>
                         <tr>
-                            <td><DropDownList values={sort2Keys} selectedValue={sorts[1]["key"]} disabled={sort2Disabled} filterName="key" index={1} updateFilters={updateSorts}/></td>
-                            <td>По убыванию <Checkbox value={sorts[1]["order"]} disabled={sort2Disabled} filterName="order" index={1} updateFilters={updateSorts}/></td>
+                            <td><DropDownList values={sort2Keys} selectedValue={sorts[1]["key"]} disabled={sort2DropDownListDisabled} filterName="key" index={1} updateFilters={updateSorts}/></td>
+                            <td>По убыванию <Checkbox value={sorts[1]["order"]} disabled={sort2CheckboxDisabled} filterName="order" index={1} updateFilters={updateSorts}/></td>
                         </tr>
                         <tr>
-                            <td><DropDownList values={sort3Keys} selectedValue={sorts[2]["key"]} disabled={sort3Disabled} filterName="key" index={2} updateFilters={updateSorts}/></td>
-                            <td>По убыванию <Checkbox value={sorts[2]["order"]} disabled={sort3Disabled} filterName="order" index={2} updateFilters={updateSorts}/></td>
+                            <td><DropDownList values={sort3Keys} selectedValue={sorts[2]["key"]} disabled={sort3DropDownListDisabled} filterName="key" index={2} updateFilters={updateSorts}/></td>
+                            <td>По убыванию <Checkbox value={sorts[2]["order"]} disabled={sort3CheckboxDisabled} filterName="order" index={2} updateFilters={updateSorts}/></td>
                         </tr>
                         <tr>
                             <td></td>
