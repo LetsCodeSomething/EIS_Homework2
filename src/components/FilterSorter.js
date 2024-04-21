@@ -123,7 +123,13 @@ export function FilterSorter(props) {
             sortsCopy[2]["order"] = false;
         }
 
-        let processedTableData = applySortsToData(props.getFilteredTableData(), sortsCopy);
+        let processedTableData;
+        if(sortsCopy[0]["key"] === -1) {
+            processedTableData = applyFiltersToData(props.getRawTableData(), filters);
+        }
+        else {
+            processedTableData = applySortsToData(props.getFilteredTableData(), sortsCopy);
+        }
 
         setSorts(sortsCopy);
         props.updateTableData(processedTableData.slice());
