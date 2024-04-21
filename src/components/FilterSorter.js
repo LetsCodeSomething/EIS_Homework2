@@ -6,6 +6,16 @@ import {DropDownList} from "./DropDownList";
 import {Checkbox} from "./Checkbox";
 
 export function FilterSorter(props) {
+    const [counter, setCounter] = React.useState(0);
+    const forceUpdate = () => {
+        if(counter > 0) {
+            setCounter(0);
+        }
+        else {
+            setCounter(1);
+        }
+    };
+    
     const FILTER_TYPE_INTEGER_INTERVAL = 0;
     const FILTER_TYPE_FLOAT_INTERVAL = 1;
     const FILTER_TYPE_DATE_INTERVAL = 2;
@@ -35,9 +45,11 @@ export function FilterSorter(props) {
     const updateFilters = (filterName, filterValue, index) => {
         let filtersCopy = Object.assign(filters);
         filtersCopy[filterName][index] = filterValue;
-        
+
         let processedTableData = applySortsToData(applyFiltersToData(props.getRawTableData(), filtersCopy), sorts);
      
+        forceUpdate();
+
         setFilters(filtersCopy);
         props.updateTableData(processedTableData);
     };
@@ -54,21 +66,21 @@ export function FilterSorter(props) {
 
             if(filtersCopy[key][0] === FILTER_TYPE_INTEGER_INTERVAL) {
                 const a = parseInt(filtersCopy[key][1]);
-                const b = parseInt(filtersCopy[key][2]); 
-                if(a && (!b || b >= a)) {
+                const b = parseInt(filtersCopy[key][2]);
+                if(!isNaN(a) && (isNaN(b) || b >= a)) {
                     tableData = tableData.filter(item => item[key] >= a);
                 }
-                if(b && (!a || b >= a)) {
+                if(!isNaN(b) && (isNaN(a) || b >= a)) {
                     tableData = tableData.filter(item => item[key] <= b);
                 }
             }
             else if(filtersCopy[key][0] === FILTER_TYPE_FLOAT_INTERVAL) {
                 const a = parseFloat(filtersCopy[key][1]);
                 const b = parseFloat(filtersCopy[key][2]); 
-                if(a && (!b || b >= a)) {
+                if(!isNaN(a) && (isNaN(b) || b >= a)) {
                     tableData = tableData.filter(item => item[key] >= a);
                 }
-                if(b && (!a || b >= a)) {
+                if(!isNaN(b) && (isNaN(a) || b >= a)) {
                     tableData = tableData.filter(item => item[key] <= b);
                 }
             }
