@@ -1,9 +1,10 @@
 import React from 'react';
 
-import {Filter} from "./Filter";
+import {FilterSorter} from "./FilterSorter";
+import {Grouper} from "./Grouper";
 
-function TableRow(props) {
-    const cells = Object.values(props.row).map((item, index) => <td key={index}> {item} </td>);
+export function TableRow(props) {
+    const cells = Object.values(props.row).map((item, index) => item === undefined ? <></> : <td key={index}> {item} </td>);
 
     return (
         <tr>
@@ -110,7 +111,8 @@ export function Table(props) {
     return (
         <>
             <div className="flexbox-container">
-                <Filter getRawTableData={getRawTableData} getFilteredTableData={getFilteredTableData} updateTableData={updateTableData}/>
+                <FilterSorter getRawTableData={getRawTableData} getFilteredTableData={getFilteredTableData} updateTableData={updateTableData}/>
+                <Grouper getRawTableData={getRawTableData}/>
             </div>
             <table className="table-data">
                 <thead>
