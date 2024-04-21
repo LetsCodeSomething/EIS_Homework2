@@ -91,7 +91,7 @@ export function Grouper(props) {
             });
         }
 
-        rows = keys.map((item, index) => <TableRow row={[item, quantity[index], max[index], min[index], mean[index]]}/>);
+        rows = keys.map((item, index) => <TableRow key={index} row={[item, quantity[index], max[index], min[index], mean[index]]}/>);
     }
 
     return(
