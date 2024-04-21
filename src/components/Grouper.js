@@ -76,40 +76,18 @@ export function Grouper(props) {
         let mean = [];
 
         if (filters["function"][0]) {
-            quantity = keys.map(item => groupedTableData[item].length);
+            quantity = keys.map(key => groupedTableData[key].length);
         }
         if (filters["function"][1]) {
-            max = keys.map(item => {
-                let maxValue = NaN;
-                for (let i = 0; i < groupedTableData[item].length; i++) {
-                    if(isNaN(maxValue) || maxValue < groupedTableData[item][i]["Weekly_Sales"]) {
-                        maxValue = groupedTableData[item][i]["Weekly_Sales"];
-                    }
-                }
-
-                return maxValue;
-            });
+            max = keys.map(key => Math.max(...groupedTableData[key].map(item => item["Weekly_Sales"])));
         }
         if (filters["function"][2]) {
-            min = keys.map(item => {
-                let minValue = NaN;
-                for (let i = 0; i < groupedTableData[item].length; i++) {
-                    if(isNaN(minValue) || minValue > groupedTableData[item][i]["Weekly_Sales"]) {
-                        minValue = groupedTableData[item][i]["Weekly_Sales"];
-                    }
-                }
-
-                return minValue;
-            });
+            min = keys.map(key => Math.min(...groupedTableData[key].map(item => item["Weekly_Sales"])));
         }
         if (filters["function"][3]) {
-            mean = keys.map(item => {
-                let sum = 0;
-                for (let i = 0; i < groupedTableData[item].length; i++) {
-                    sum += groupedTableData[item][i]["Weekly_Sales"];
-                }
-
-                return sum /= 1.0 * groupedTableData[item].length;
+            mean = keys.map(key => {
+                let sum = groupedTableData[key].reduce((accumulator, current) => {return accumulator + current["Weekly_Sales"];}, 0);
+                return sum /= 1.0 * groupedTableData[key].length;
             });
         }
 
