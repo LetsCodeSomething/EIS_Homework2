@@ -114,7 +114,7 @@ export function FilterSorter(props) {
 
     const updateSorts = (sortName, sortValue, index) => {
         //https://stackoverflow.com/questions/25937369/react-component-not-re-rendering-on-state-change
-        let sortsCopy = sorts.slice();
+        let sortsCopy = sorts;
 
         //Dropdown lists may return strings and integer numbers.
         //The type check is done here to avoid using "==" later.
@@ -143,8 +143,10 @@ export function FilterSorter(props) {
             processedTableData = applySortsToData(props.getFilteredTableData(), sortsCopy);
         }
 
+        forceUpdate();
+
         setSorts(sortsCopy);
-        props.updateTableData(processedTableData.slice());
+        props.updateTableData(processedTableData);
     };
 
     const resetSorts = (event) => {
