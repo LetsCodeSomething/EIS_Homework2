@@ -17,7 +17,7 @@ function PaginationButtons(props) {
     let pageNumbers = [];
     if(props.pagesCount < 8) {
         if(props.pagesCount > 1) {
-            for (let i = 0; i < 7; i++) {
+            for (let i = 0; i < props.pagesCount; i++) {
                 pageNumbers.push(i + 1);
             }
         }
@@ -103,7 +103,7 @@ export function Table(props) {
     const pagesCount = Math.ceil(tableData.length * 1.0 / parseInt(props.rowsPerPage));
     const remainingRowsCount = tableData.length - selectedPage * parseInt(props.rowsPerPage);
     const sliceSize = remainingRowsCount >= parseInt(props.rowsPerPage) ? parseInt(props.rowsPerPage) : remainingRowsCount;
-    
+
     //Creates table rows.
     const rows = tableData.slice(selectedPage * parseInt(props.rowsPerPage), 
                                  selectedPage * parseInt(props.rowsPerPage) + sliceSize).map((item, index) => <TableRow key={index} row={item}/>);
